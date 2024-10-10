@@ -11,27 +11,28 @@
     font-size: 24px;
 }
 
-.portfolio-container__content{
+.portfolio-container__content, .history-container{
     border: 1px solid black;
     height: 460px;
 }
 
-.sidebar{
+.sidebar, .history-container{
     background: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
     height: 100%;
     
 }
 
 
-.sidebar__header{
+.sidebar__header, .history-header_container{
     display: flex;
     border-bottom: 1px solid white;
     
 }
 
-.sidebar-header__title{
+.sidebar-header__title, .history-header__title{
     font-weight: bolder;
     font-size: 24px;
+    color: white;
 }
 
 .sidebar__items{
@@ -151,14 +152,14 @@
     transition: background-color 0.3s; 
 }
 
-.custom-button-new_portfolio:hover{
+ .custom-button-new_portfolio:hover{
     background-color: #00bf72;
     color: white;
     transition: background-color 0.3s; 
 }
 
 
-.custom-button-new_portfolio:active{
+ .custom-button-new_portfolio:active{
     background-color:#a8eb12;
     color: white;
     transition: background-color 0.3s; 
@@ -167,7 +168,7 @@
 
 
 
-.portfolio-container__body{
+.portfolio-container__body, .history-container__body{
     background: linear-gradient(90deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
     height: 100%;
 }
@@ -190,7 +191,7 @@
 }
 
 .custom-button-new__transaction{
-    background-color: #000; 
+    background-color: rgba(0, 0, 0, 0.5); 
     color: #fff; 
     border: none; 
     border-radius: 5px; 
@@ -215,9 +216,92 @@
     text-align: center;
     margin-top: 17%;
 }
-.data-table_footer{
+.footer-datatable__portfolio{
     display: flex;
     justify-content: space-between;
     align-items: center;    
-}  
+}
+
+.history__body{
+    display: flex;
+}
+
+.text_custom-form{
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+
+
+.container_custom-button{
+    padding-top: 26px;
+}
+
+.custom-button__reset{
+    background-color:  rgba(0, 0, 0, 0.5); 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.custom-button__reset:hover {
+    background-color: #333;
+}
+
+
+.custom-button__reset:active {
+    background-color: rgba(196, 89, 252, 1);
+}
+
+.container_custom-select select {
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: white; 
+    border: none; 
+    width: 150px;
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.container_custom-select select:hover {
+    background-color: #333; 
+}
+
+.container_custom-select select:active, 
+.container_custom-select select:focus {
+    background-color: rgba(196, 89, 252, 1);
+    outline: none; 
+}
+
+.custom-input_history{
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: white; 
+    border: none; 
+    width: 200px;
+    height: 39px;
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.empty-datatable-history__message{
+    padding-top: 125px;
+    padding-bottom: 125px;
+    color: white;
+}
+
+.footer-datatable__history{
+    display: flex;
+    justify-content: end;
+    align-items: center; 
+}
+
+
+
+
 
