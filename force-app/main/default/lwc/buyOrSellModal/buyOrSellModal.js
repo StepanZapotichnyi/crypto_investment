@@ -1,6 +1,5 @@
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import  LightningModal  from 'lightning/modal';
-import createTransaction from '@salesforce/apex/TransactionController.createTransaction';
 import {  api } from 'lwc';
 
 
@@ -40,9 +39,7 @@ export default class BuyOrSellModal extends LightningModal {
             this.showToast('Error', 'Not enough tokens', 'error');
             return;
         }
-        this.handleTransactionCreation(this.createToTransactionData(this.transaction));
-
-
+        this.close({data : this.createToTransactionData(this.transaction)})
     }
 
     createToTransactionData(token) {
@@ -50,18 +47,10 @@ export default class BuyOrSellModal extends LightningModal {
             portfolioCurrencyId: token.id,
             typeTransaction: token.type,
             symbol: token.name,
-            quantityTransaction: this.quantityTransaction,
+            quantityTransaction: this.quantityTransaction.toString(),
             amountTransaction: (this.quantityTransaction * this.priceTransaction).toFixed(4),
         }
     }
-
-    handleTransactionCreation(transactionData) {
-        createTransaction({data: JSON.stringify(transactionData)})
-        this.close();
-        
-    }
-
-
 
     validateSellTransaction(quantityTransaction){
         if(this.transaction.holdings < quantityTransaction ){

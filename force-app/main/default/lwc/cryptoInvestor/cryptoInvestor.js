@@ -251,8 +251,8 @@ export default class CryptoInvestor extends LightningElement {
     }
     
     prevHandlerToPortfolioTab(event) {
-        if (this.pageNumberToPortfolioToPortfolioTab > 1) {
-            this.pageNumberToPortfolioToPortfolioTab -= 1;
+        if (this.pageNumberToPortfolioTab > 1) {
+            this.pageNumberToPortfolioTab -= 1;
             this.displayRecordPerPageToPortfolioTab(this.pageNumberToPortfolioTab);
         }
     }
@@ -348,15 +348,15 @@ export default class CryptoInvestor extends LightningElement {
             let transactionData = {
                 portfolioId:  this.selectedPortfolio.Id,
                 typeTransaction: 'Buy',
-                quantityTransaction: resultTransactionModal.quantityTransaction,
-                amountTransaction: resultTransactionModal.amountTransaction,
+                quantityTransaction: resultTransactionModal.quantityTransaction.toString(),
+                amountTransaction: resultTransactionModal.amountTransaction.toString(),
                 symbol: resultTransactionModal.symbolTransaction    
              };
 
             await this.handleTransactionCreation(transactionData);
            
         }else{
-            this.showToast('Error','Incorrectly entered parameters','error');
+            this.showToast('Info','Incorrectly entered parameters','info');
         }
 
     }
@@ -366,18 +366,16 @@ export default class CryptoInvestor extends LightningElement {
 
         createTransaction({data: JSON.stringify(transactionData)})
         .then(response => {
-            // this.loadDetails();
             this.handleSelectPortfolio({currentTarget: {dataset: {id: this.selectedPortfolio.Id}}});
-            this.showToast('Success', 'Transaction completed', 'success');
+            this.showToast('Transaction Successful','The transaction was completed successfully.', 'success');
+
         })
         .catch(error =>{
-            console.error('Error creating transaction:', error);
+            this.showToast('Transaction Failed', 'Transaction was not created', 'error');
+            
         })
     }
 
-
-
-    
     handleThreedots() {
         this.isMenuOpen = !this.isMenuOpen;
     }
@@ -398,8 +396,7 @@ export default class CryptoInvestor extends LightningElement {
                 this.loadDetails();
             })
             .catch(error =>{
-                let errorMessage = error.body ? error.body.message : 'An unexpected error occurred during portfolio deletion.';
-                this.showToast('Error', `Failed to delete portfolio. Error: ${errorMessage}`, 'error');
+                this.showToast('Error', 'Failed to delete portfolio.', 'error');
             })
         }else{
             this.showToast('Error', 'Invalid Portfolio ID. Please select a valid portfolio and try again.', 'error');
@@ -447,15 +444,12 @@ export default class CryptoInvestor extends LightningElement {
         };
     }
 
-    openTransactionModal(transaction) {
-        BuyOrSellModal.open({transaction: transaction})
-        .then(result => {
-            this.handleSelectPortfolio({currentTarget: {dataset: {id: this.selectedPortfolio.Id}}});
-            this.showToast('Transaction Successful','The transaction was completed successfully.', 'success');
-        }).catch(error => {
-            this.showToast('Transaction Failed', `An error occurred: ${error.message}`, 'error');
-        });
-
+     async openTransactionModal(transaction) {
+        const newTransaction = await BuyOrSellModal.open({transaction: transaction})
+        if(newTransaction) {
+            console.log(newTransaction.data);
+            this.handleTransactionCreation(newTransaction.data);
+        }
     }
  
 

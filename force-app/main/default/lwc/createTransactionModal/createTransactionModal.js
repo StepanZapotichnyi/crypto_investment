@@ -17,7 +17,7 @@ export default class CreateTransactionModal extends LightningModal {
         this.quantityTransaction =  parseFloat(event.target.value);
     }
     handleAmountChange(event) {
-        this.amountTransaction = event.target.value;
+        this.amountTransaction = parseFloat(event.target.value);
     }
     
     

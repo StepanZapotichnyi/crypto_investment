@@ -3,10 +3,8 @@ public  class PortfolioCurrencyTriggerHandlerTest {
     @IsTest
     static void testHandleUpdatePortfolioCurrency() {
         
-        List<Portfolio_Currency__c> testPortfolioCurrencies = TestFactoryData.createPortfolioCurrency();
+        List<Portfolio_Currency__c> testPortfolioCurrencies = TestFactoryData.createPortfoliosWithPortfolioCurrencies(5);
       
-        Assert.areEqual(300, testPortfolioCurrencies.size(), 'Expected 300 Portfolio Currency records to be created');
-
         PortfolioCurrencyTriggerHandler.handleUpdatePortfolioCurrencyName(testPortfolioCurrencies);
         
         List<Portfolio_Currency__c> portfolioCurrenciesAfterUpdate = [
@@ -38,9 +36,8 @@ public  class PortfolioCurrencyTriggerHandlerTest {
     @IsTest
     static void testCreatePortfolioCurrencySummary() {
 
-        List<Portfolio_Currency__c> testPortfolioCurrencies = TestFactoryData.createPortfolioCurrency();
-      
-        Assert.areEqual(300, testPortfolioCurrencies.size(), 'Expected 300 Portfolio Currency records to be created');
+        
+        List<Portfolio_Currency__c> testPortfolioCurrencies = TestFactoryData.createPortfoliosWithPortfolioCurrencies(5);
 
         PortfolioCurrencyTriggerHandler.createPortfolioCurrencySummary(testPortfolioCurrencies);
 
