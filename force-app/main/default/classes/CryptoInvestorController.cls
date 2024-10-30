@@ -6,7 +6,6 @@ public with sharing class CryptoInvestorController {
         PortfolioCurrencyController.PortfolioCurrencyWrapper portfolioCurrencyDetails = PortfolioCurrencyController.getPortfolioCurrencyDetails();
     
         Decimal totalBalanceInvestment = portfolioCurrencyDetails.netInvestment;
-        // List<Portfolio_Currency__c> portfolioCurrencies = portfolioCurrencyDetails.portfolioCurrencies;
 
         Decimal currencyBalance = calculateTotalQuantityValue(portfolioCurrencyDetails.symbolToTotalQuantityMap);
        
@@ -106,7 +105,6 @@ public with sharing class CryptoInvestorController {
         }
 
     }
-
 
     
     public class InvestmentDetailsWrapper {
