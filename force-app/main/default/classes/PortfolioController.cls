@@ -21,19 +21,12 @@ public with sharing class PortfolioController {
     
     @AuraEnabled
     public static void deletePortfolio(Id portfolioId){
-        try{
-            List<Portfolio__c> portfolio = [SELECT Id, Name FROM Portfolio__c WHERE Id = :portfolioId];
-            if(!portfolio.isEmpty()){
-                delete portfolio;
-            }
 
-        }catch (Exception e){
-            throw new PortfolioControllerException(e.getMessage());
+        List<Portfolio__c> portfolios = [SELECT Id, Name FROM Portfolio__c WHERE Id = :portfolioId];
+        if(!portfolios.isEmpty()){
+            delete portfolios;
         }
     
     }
 
-    public class PortfolioControllerException extends Exception {
-            
-    }
 }
