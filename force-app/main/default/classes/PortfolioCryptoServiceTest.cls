@@ -1,5 +1,24 @@
 @IsTest
-public class PortfolioCryptoServiceTest {
+private class PortfolioCryptoServiceTest {
+    @IsTest 
+    static void testRetrievePortfolioCryptoData() {
+        String testMock = TestFactoryData.createCryptoDataMockString();
+
+        Test.setMock(HttpCAlloutMock.class, new PortfolioCryptoServiceMock(200, testMock));
+        
+        Test.startTest();
+        Map<String, CryptoData.Price> result = PortfolioCryptoService.retrievePortfolioCryptoData();
+        Test.stopTest();
+
+        Integer count = 0;
+
+        for (String key : result.keySet()) {
+            String testSymbol = 'TEST' + count;
+            Assert.areEqual(testSymbol, key, 'Expected key: ' + testSymbol + ', but received key: ' + key);
+            count++;
+        }
+    }
+
 
     @isTest
     static void testDeserializeResponseWithError() {
