@@ -100,26 +100,28 @@ public with sharing class CryptoInvestorController {
 
     public static Map<String,CryptoData.Price> getPricesCtyptoCurrency() {
         try {
-            Map<String, CryptoData.Price> pricesCtyptoCurrency = PortfolioCryptoService.retrievePortfolioCryptoData();
-            return pricesCtyptoCurrency;
+            return PortfolioCryptoService.retrievePortfolioCryptoData();
         }   catch (Exception e) {
             throw new CryptoInvestorControllerException(e.getMessage());
         }
 
     }
 
+
     
     public class InvestmentDetailsWrapper {
         @AuraEnabled public Decimal totalBalanceInvestment;
         @AuraEnabled public Decimal currencyBalance;
         @AuraEnabled public List<Portfolio__c> portfolios;
+        @AuraEnabled public List<Transaction__c> transactions;
         
 
         
-        public InvestmentDetailsWrapper(Decimal totalBalanceInvestment, Decimal currencyBalance, List<Portfolio__c> portfolios) {
+        public InvestmentDetailsWrapper(Decimal totalBalanceInvestment, Decimal currencyBalance, List<Portfolio__c> portfolios, List<Transaction__c> transactions) {
             this.totalBalanceInvestment = totalBalanceInvestment;
             this.currencyBalance = currencyBalance;
             this.portfolios = portfolios;
+            this.transactions = transactions;
         }
     }
 
@@ -127,4 +129,3 @@ public with sharing class CryptoInvestorController {
             
     }
 }
-
