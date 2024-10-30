@@ -5,12 +5,12 @@ public with sharing class PortfolioCryptoService {
 
     public static Map<String, CryptoData.Price>  retrievePortfolioCryptoData() {
 
-        List<String> containerCryptoSymbols = UtilityToPortfolio.getContainerCryptoSymbols();
+        List<String> containerCryptoSymbols = PortfolioUtility.getContainerCryptoSymbols();
         List<String> responseBodies = new List<String>();
         Map<String, CryptoData.Price> cryptoNameToPrice; 
 
         for(String st : containerCryptoSymbols) {
-            String endpoint = UtilityToPortfolio.getCryptoEndpoint(st);
+            String endpoint = PortfolioUtility.getCryptoEndpoint(st);
             HttpCallouts.HttpResponseWrapper response = HttpCallouts.executeHttpRequest(endpoint);
             if(isResponseValid(response)){
                 responseBodies.add(response.responseBody); 
