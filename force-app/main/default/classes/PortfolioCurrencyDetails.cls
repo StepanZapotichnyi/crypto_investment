@@ -7,6 +7,10 @@ public class PortfolioCurrencyDetails {
     @AuraEnabled public String totalCost { get; set; }
     
     
+    public PortfolioCurrencyDetails() {
+        
+    }
+
     public PortfolioCurrencyDetails(String portfolioCurrencyId, String symbol, String totalQuantity, String portfolioId, String price, String totalCost) {
         this.portfolioCurrencyId = portfolioCurrencyId;
         this.symbol = symbol;

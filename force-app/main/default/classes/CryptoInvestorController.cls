@@ -64,7 +64,7 @@ public with sharing class CryptoInvestorController {
             String symbol = portfolioCurrency.Symbol__c;
             String totalQuantity = String.valueOf(portfolioCurrency.Total_Quantity__c);
             
-            String portfolioIdStr = portfolioCurrency.PortfolioId__c;
+            String portfolioIdToPortfolioCurrencyDetails = portfolioCurrency.PortfolioId__c;
     
             String price = '0';
             String totalCost = '0';
@@ -83,14 +83,14 @@ public with sharing class CryptoInvestorController {
                 totalCost = String.valueOf(portfolioCurrencySummaryMap.get(portfolioCurrencyId));
             }
     
-            PortfolioCurrencyDetails detail = new PortfolioCurrencyDetails(
-                portfolioCurrencyId,
-                symbol,
-                totalQuantity,
-                portfolioIdStr,
-                price,
-                totalCost
-            );
+            PortfolioCurrencyDetails detail = new PortfolioCurrencyDetails();
+                detail.portfolioCurrencyId  = portfolioCurrencyId;
+                detail.symbol = symbol;
+                detail.totalQuantity  =  totalQuantity;
+                detail.portfolioId = portfolioIdToPortfolioCurrencyDetails;
+                detail.price = price;
+                detail.totalCost = totalCost;
+            
     
             dataTableDetails.add(detail);
         }
