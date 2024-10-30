@@ -59,5 +59,5 @@ public with sharing class PortfolioCurrencyController {
         }
     }
 
-
+    
 }
