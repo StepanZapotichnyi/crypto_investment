@@ -6,15 +6,17 @@ public with sharing class CryptoInvestorController {
         PortfolioCurrencyController.PortfolioCurrencyWrapper portfolioCurrencyDetails = PortfolioCurrencyController.getPortfolioCurrencyDetails();
     
         Decimal totalBalanceInvestment = portfolioCurrencyDetails.netInvestment;
-        List<Portfolio_Currency__c> portfolioCurrencies = portfolioCurrencyDetails.portfolioCurrencies;
+        // List<Portfolio_Currency__c> portfolioCurrencies = portfolioCurrencyDetails.portfolioCurrencies;
 
-        Decimal currencyBalance = calculetedAllQuntity(portfolioCurrencyDetails.symbolToTotalQuantityMap);
+        Decimal currencyBalance = calculateTotalQuantityValue(portfolioCurrencyDetails.symbolToTotalQuantityMap);
        
         List<Portfolio__c> portfolios = PortfolioController.getPortfolios();
-        return new InvestmentDetailsWrapper(totalBalanceInvestment, currencyBalance, portfolios);
+        List<Transaction__c> transactions = TransactionController.getAllTransaction();
+        
+        return new InvestmentDetailsWrapper(totalBalanceInvestment, currencyBalance, portfolios, transactions);
     }
     
-    public static Decimal calculetedAllQuntity(Map<String, Decimal> symbolToTotalQuantityMap){
+    public static Decimal calculateTotalQuantityValue(Map<String, Decimal> symbolToTotalQuantityMap){
         try{
             Map<String,CryptoData.Price>  pricesCtyptoCurrency = getPricesCtyptoCurrency();
 
