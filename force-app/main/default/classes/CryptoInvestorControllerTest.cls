@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class CryptoInvestorControllerTest {
+private with sharing class CryptoInvestorControllerTest {
    @IsTest
     static void testGetInvestmentDetails() {
 

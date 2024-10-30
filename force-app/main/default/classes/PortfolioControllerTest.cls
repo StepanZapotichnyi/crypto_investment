@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class PortfolioControllerTest {
+private with sharing class PortfolioControllerTest {
    @IsTest
     static void testCreatePortfolio() {
 
