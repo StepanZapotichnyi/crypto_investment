@@ -1,6 +1,6 @@
  public with sharing class TransactionTriggerHandler {
 
-    public static void handleToUpdatePortfolioCurrency(List<Transaction__c> tranascations) {
+    public static void handleUpdatePortfolioCurrency(List<Transaction__c> tranascations) {
 
         Map<Id, List<Transaction__c>> portfolioCurrencyIdsToTransactions = new Map<Id, List<Transaction__c>>();
         for (Transaction__c txn : tranascations) {
