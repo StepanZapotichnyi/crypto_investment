@@ -12,7 +12,7 @@ public with sharing class CryptoInvestorControllerTest {
 
         List<Transaction__c> testTransactions = TestFactoryData.createTransactions(testDataTransaction);
 
-        String testMock = TestFactoryData.getMockString();
+        String testMock = TestFactoryData.createCryptoDataMockString();
 
         Test.setMock(HttpCAlloutMock.class, new PortfolioCryptoServiceMock(200, testMock));
         
@@ -70,7 +70,7 @@ public with sharing class CryptoInvestorControllerTest {
 
         List<Transaction__c> testTransactions = TestFactoryData.createTransactions(testDataTransaction);
         
-        String testMock = TestFactoryData.getMockString();
+        String testMock = TestFactoryData.createCryptoDataMockString();
 
         List<Portfolio__c> testPortfolio = [SELECT Id, Name FROM Portfolio__c ];
     
