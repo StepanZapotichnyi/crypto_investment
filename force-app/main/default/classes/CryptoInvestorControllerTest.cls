@@ -88,9 +88,11 @@ public with sharing class CryptoInvestorControllerTest {
             WHERE PortfolioId__c = :testPortfolio[0].Id
         ];
 
+
         for(PortfolioCurrencyDetails portfolioCurrencyDetail  : portfolioCurrencyDetails) {
             Assert.areEqual(testPortfolio[0].Id, portfolioCurrencyDetail.portfolioId,
-            'Id not found. Expected: ' + testPortfolio[0].Id + ', but got: ' + portfolioCurrencyDetail.portfolioId);
+            'PortfolioId not found. Expected: ' + testPortfolio[0].Id + ', but got: ' + portfolioCurrencyDetail.portfolioId);
+           
             for(Portfolio_Currency__c portfolioCurrency : portfolioCurrencies ) {
                 if(portfolioCurrency.Id == portfolioCurrencyDetail.portfolioCurrencyId){
                     System.debug('work');
@@ -102,6 +104,7 @@ public with sharing class CryptoInvestorControllerTest {
                     'Total quantity not found. Expected: ' + String.valueOf(portfolioCurrency.Total_Quantity__c) + ', but got: ' + String.valueOf(portfolioCurrencyDetail.totalQuantity));
                 }
             
+               
             }
         }   
     }
