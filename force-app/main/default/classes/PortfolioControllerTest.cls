@@ -7,7 +7,7 @@ public with sharing class PortfolioControllerTest {
 
         Portfolio__c portfolio  =  PortfolioController.createPortfolio(testName);
 
-        Assert.isNotNull(portfolio.Id, 'Portfolio Id should be null');
+        Assert.isNotNull(portfolio.Id, 'Portfolio Id should not be null');
         Assert.areEqual(testName, portfolio.Name, 'Portfolio name does not match');
 
     }
@@ -22,9 +22,8 @@ public with sharing class PortfolioControllerTest {
 
 
         List<Portfolio__c> portfolios = [SELECT Id, Name FROM Portfolio__c WHERE Id =: testPortfolio.Id];
-        for(Portfolio__c portfolio : portfolios) {
-            Assert.isNull(portfolio.Id, 'Portfolio Id should be null');
-        }
+       
+        Assert.areEqual(0, portfolios.size(), 'Portfolio should be deleted, so the list should be empty');
 
     }
     
