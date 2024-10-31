@@ -279,6 +279,12 @@ export default class CryptoInvestor extends LightningElement {
     
 
     calculateAverageProfitAndLoss(interimToDataTablePortfolio) {
+        this.averageProfitAndLoss = parseFloat(0);
+        if (interimToDataTablePortfolio.length === this.averageProfitAndLoss){
+            this.updateProfitLossStyle(this.averageProfitAndLoss);
+            return;
+        }
+        
         let profitAndLossValues = interimToDataTablePortfolio.map(item => parseFloat(item.profitAndLoss.replace(/\$/g, '')));
         this.averageProfitAndLoss = profitAndLossValues.reduce((total, value) => total + value, 0);
         this.averageProfitAndLoss = this.averageProfitAndLoss.toFixed(4);
@@ -303,16 +309,10 @@ export default class CryptoInvestor extends LightningElement {
             } else if(value < 0) {
                 iconDown.classList.remove('slds-hide');
                 textElement.style.color = 'red';
-            }else{
-                profitIndicator.style.color = 'black';
-                iconUp.classList.add('slds-hide');
-                iconDown.classList.add('slds-hide');
             }
         }
 
     }
-
-   
 
     updatePortfolioHighlight(portfolioId) {
     
