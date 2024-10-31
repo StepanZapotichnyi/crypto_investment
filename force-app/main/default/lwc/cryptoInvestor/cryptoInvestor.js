@@ -367,7 +367,7 @@ export default class CryptoInvestor extends LightningElement {
 
         createTransaction({data: JSON.stringify(transactionData)})
         .then(response => {
-            this.handleSelectPortfolio({currentTarget: {dataset: {id: this.selectedPortfolio.Id}}});
+            this.selectPortfolioById(this.selectedPortfolio.Id);
             this.showToast('Transaction Successful','The transaction was completed successfully.', 'success');
 
         })
