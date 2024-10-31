@@ -1,0 +1,43 @@
+:host {
+  --primary-bg-color: #000;
+  --primary-text-color: #fff;
+  --font-size-base: 1rem; 
+}
+
+.container_custom_modal {
+  transform: translate(-50%, 0%);
+  position: relative;
+  left: 50%;
+  font-size: var(--font-size-base);
+  margin: 1.5625rem;
+  width: 25rem;
+  height: 25rem;
+}
+
+.custom_body_modal{
+    padding: 0 1rem 1rem 1rem;
+}
+
+.custom_footer_modal {
+    padding-bottom: 0.625rem;
+    transform: translate(33%, 0)
+}
+
+.custom-button{
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color); 
+  border: none;   
+  border-radius: 0.3125rem; 
+  padding: 0.625rem 1.25rem; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+}
+.custom-button:hover{
+  background-color: #333; 
+  transition: background-color 0.3s;
+}
+  
+.custom-button:active{
+  background-color: rgba(196, 89, 252, 1);
+}  
+

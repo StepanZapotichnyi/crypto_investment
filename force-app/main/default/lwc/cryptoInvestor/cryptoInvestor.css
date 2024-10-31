@@ -1,0 +1,316 @@
+:host {
+    --default-bg-gradient: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+    --highlight-gradient: linear-gradient(90deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+    --highlight-color: rgba(196, 89, 252, 1);
+    --transition-bg-color: background-color 0.3s;
+    --button-bg: rgba(0, 0, 0, 0.5); 
+    --primary-font-size: 1.5rem; 
+    --secondary-font-size: 1.125rem; 
+    --border-radius: 0.9375rem; 
+    --border-width: 0.125rem; 
+    --container-height: 28.75rem; 
+    --sidebar-max-height: 25.3125rem; 
+    --sidebar-item-height: 3.125rem; 
+    --sidebar-item-margin: 0.625rem; 
+    --button-padding: 0.625rem 1.25rem; 
+    --custom-select-width: 9.375rem;
+    --empty-state-padding: 7.8125rem; 
+    --container-margin-top: 50%;
+}
+
+.header-card {
+    height: 100%;
+    background: var(--default-bg-gradient);
+    border-radius: var(--border-radius);
+    color: white;
+    border: #000 solid var(--border-width);
+}
+
+.container-content {
+    font-weight: bolder;
+    font-size: var(--primary-font-size);
+}
+
+.portfolio-container__content,
+.history-container {
+    border: 1px solid black;
+    height: var(--container-height);
+}
+
+.sidebar, .history-container {
+    background: var(--default-bg-gradient);
+    height: 100%;
+}
+
+.sidebar__header,
+.history-header_container {
+    display: flex;
+    border-bottom: 1px solid white;
+}
+
+.sidebar-header__title,
+.history-header__title {
+    font-weight: bolder;
+    font-size: var(--primary-font-size);
+    color: white;
+}
+
+.sidebar__items {
+    max-height: var(--sidebar-max-height);
+    width: 100%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.sidebar__items::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar__item {
+    width: 100%;
+    color: white;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+    transition: var(--transition-bg-color);
+}
+
+.is-active:hover {
+    background-color: #333;
+    border-left:  0.3125rem solid white;
+}
+
+.is-active:active {
+    background-color: var(--highlight-color);
+}
+
+.is-selected {
+    background: hsla(217, 100%, 50%, 1);
+    border-left: 0.3125rem solid #000;
+    color: #000;
+}
+
+.sidebar-item__container {
+    display: flex;
+    margin-left: var(--sidebar-item-margin);
+    height: var(--sidebar-item-height);
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-item__title {
+    font-size: var(--secondary-font-size);
+}
+
+.custom_button_threedots {
+    border: none;
+    background-color: transparent;
+    transition: var(--transition-bg-color);
+}
+
+.portfolio_threedots_button {
+    opacity: 0;
+    background: var(--highlight-gradient);
+}
+
+.sidebar__item:hover .portfolio_threedots_button {
+    opacity: 1;
+}
+
+.custom_button_threedots:hover {
+    fill: #333;
+}
+
+.custom_button_threedots:active {
+    fill: var(--highlight-color);
+}
+
+.custom_threedots_menu-buttons {
+    transform: translate(-16%, -20%);
+}
+
+.button-new-portfolio__container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: var(--container-margin-top);
+}
+
+.custom-button-add__portfolio {
+    background-color: transparent;
+    fill: white;
+    border: none;
+    padding: var(--button-padding);
+    cursor: pointer;
+    transition: fill 0.3s;
+}
+
+.custom-button-add__portfolio:hover {
+    fill: #333;
+    transition: fill 0.3s;
+}
+
+.custom-button-add__portfolio:active {
+    fill: var(--highlight-color);
+    transition: fill 0.3s;
+}
+
+.custom-button-new_portfolio {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 0.3125rem; 
+    padding: var(--button-padding);
+    cursor: pointer;
+    transition: var(--transition-bg-color);
+}
+
+.custom-button-new_portfolio:hover {
+    background-color: #00bf72;
+    color: white;
+    transition: var(--transition-bg-color);
+}
+
+.custom-button-new_portfolio:active {
+    background-color: #a8eb12;
+    color: white;
+    transition: var(--transition-bg-color);
+}
+
+.portfolio-container__body,
+.history-container__body {
+    background: var(--highlight-gradient);
+    height: 100%;
+}
+
+.portfolio-container__header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    font-weight: bolder;
+    font-size: var(--primary-font-size);
+}
+
+.portfolio-header__name,
+.portfolio-header__profit {
+    flex: 1;
+}
+
+.profit-indicator {
+    display: flex;
+}
+
+.custom-button-new__transaction {
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: 0.3125rem; 
+    padding: var(--button-padding);
+    cursor: pointer;
+    transition: var(--transition-bg-color);
+}
+
+.custom-button-new__transaction:hover {
+    background-color: #333;
+    transition: var(--transition-bg-color);
+}
+
+.custom-button-new__transaction:active {
+    background-color: var(--highlight-color);
+}
+
+.table__empty-state {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 17%;
+}
+
+.footer-datatable__portfolio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history__body {
+    display: flex;
+}
+
+.text_custom-form {
+    font-weight: bold;
+    font-size: var(--secondary-font-size);
+    color: white;
+}
+
+.container_custom-button {
+    padding-top: 1.625rem; 
+}
+
+.custom-button__reset {
+    background-color:var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: 0.3125rem; 
+    padding: var(--button-padding);
+    cursor: pointer;
+    transition: var(--transition-bg-color);
+}
+
+.custom-button__reset:hover {
+    background-color: #333;
+}
+
+.custom-button__reset:active {
+    background-color: var(--highlight-color);
+}
+
+.container_custom-select select {
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    width: var(--custom-select-width);
+    border-radius: 0.3125rem; 
+    padding: var(--button-padding);
+    cursor: pointer;
+    transition: var(--transition-bg-color);
+}
+
+.container_custom-select select:hover {
+    background-color: #333;
+}
+
+.container_custom-select select:active,
+.container_custom-select select:focus {
+    background-color: var(--highlight-color);
+    outline: none;
+}
+
+.custom-input_history {
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    width: 12.5rem;
+    height:  2.4375rem;
+    border-radius: 0.3125rem; 
+    padding: var(--button-padding);
+    cursor: pointer;
+    transition: var(--transition-bg-color);
+}
+
+.empty-datatable-history__message {
+    padding-top: var(--empty-state-padding);
+    padding-bottom: var(--empty-state-padding);
+    color: white;
+}
+
+.footer-datatable__history {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+
+
+

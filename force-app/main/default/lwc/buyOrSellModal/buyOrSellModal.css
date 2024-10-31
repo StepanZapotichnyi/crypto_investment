@@ -1,0 +1,30 @@
+:host {
+    --primary-color: #333;
+    --font-size-base: 1rem; 
+}
+
+.container_custom_modal {
+    transform: translate(-50%, 0%);
+    position: relative;
+    left: 50%;
+    font-size: var(--font-size-base);
+    margin: 1.5625rem; 
+    width: 25rem; 
+    height: 25rem; 
+}
+
+.custom_body_modal {
+    padding: 0 1rem 1rem 1rem; 
+}
+
+.custom-paragraph, .custom-span {
+    margin-bottom: 0.5rem; 
+    font-size: var(--font-size-base);
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.custom_footer_modal {
+    padding-bottom: 0.625rem; 
+    transform: translate(75%, 0);
+}
