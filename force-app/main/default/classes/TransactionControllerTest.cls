@@ -6,16 +6,15 @@ public with sharing class TransactionControllerTest {
         Portfolio__c testPortfolio =  new Portfolio__c(Name = 'Test');
         insert testPortfolio;
 
-        String testType = 'Buy';
-        Decimal testQuantityTransaction = 500;
+        Map<String, Object> transactionDataMap = new Map<String, Object>{
+                    'portfolioId' => testPortfolio.Id,
+                    'typeTransaction' => 'Buy',
+                    'quantityTransaction' => '500.0',
+                    'amountTransaction' => '200.0',
+                    'symbol' => 'Test'
+        };
 
-        String testDataTransaction = '{'+
-            '"portfolioId": "'+testPortfolio.Id+'",' +
-            '"typeTransaction": "'+testType+'",'+
-            '"quantityTransaction": "'+String.valueOf(testQuantityTransaction)+'",'+
-            '"amountTransaction": "200",'+
-            '"symbol": "Test"'+
-            '}';
+        String testDataTransaction = JSON.serialize(transactionDataMap);
 
         TransactionController.createTransaction(testDataTransaction);
 
@@ -25,10 +24,17 @@ public with sharing class TransactionControllerTest {
             FROM 
                 Transaction__c
         ];
+        
+        Assert.areEqual(1, transactionsAfterTest.size(), 'Transaction size should be 1');
+        for( Transaction__c txn : transactionsAfterTest) {
+            Assert.isNotNull(txn.Id, 'Transaction Id should not be null');
+            Assert.areEqual(transactionDataMap.get('typeTransaction'), txn.Type_Transaction__c, 'Type transaction is not the same');
+            Decimal expectedQuantity =  Decimal.valueOf((String)transactionDataMap.get('quantityTransaction'));
+            Assert.areEqual(expectedQuantity, txn.Quantity__c, 'Quantity transaction is not the same'); 
+            Decimal expectedAmount = Decimal.valueOf((String)transactionDataMap.get('amountTransaction'));
+            Assert.areEqual(expectedAmount, txn.Amount__c, 'Quantity transaction is not the same'); 
 
-        Assert.isNotNull(transactionsAfterTest[0].Id, 'Transaction Id should not be null');
-        Assert.areEqual(testType, transactionsAfterTest[0].Type_Transaction__c, 'Type transaction is not the same');
-        Assert.areEqual(testQuantityTransaction, transactionsAfterTest[0].Quantity__c, 'Quantity transaction is not the same'); 
+        }
     }
 
     @IsTest
@@ -36,16 +42,15 @@ public with sharing class TransactionControllerTest {
 
         List<Portfolio_Currency__c> testPortfolioCurrencies = TestFactoryData.createPortfoliosWithPortfolioCurrencies(1);
 
-        String testType = 'Buy';
-        Decimal testQuantityTransaction = 500;
+        Map<String, Object> transactionDataMap = new Map<String, Object>{
+            'portfolioCurrencyId' => testPortfolioCurrencies[0].Id,
+            'typeTransaction' => 'Buy',
+            'quantityTransaction' => '500.0',
+            'amountTransaction' => '200.0',
+            'symbol' => 'Test'
+            };
 
-        String testDataTransaction = '{'+
-            '"portfolioCurrencyId": "'+testPortfolioCurrencies[0].Id+'",' +
-            '"typeTransaction": "'+testType+'",'+
-            '"quantityTransaction": "'+String.valueOf(testQuantityTransaction)+'",'+
-            '"amountTransaction": "200",'+
-            '"symbol": "Test"'+
-            '}';
+        String testDataTransaction = JSON.serialize(transactionDataMap);    
 
         TransactionController.createTransaction(testDataTransaction);
 
@@ -56,9 +61,22 @@ public with sharing class TransactionControllerTest {
                 Transaction__c
         ];
 
-        Assert.areEqual(testPortfolioCurrencies[0].Id, transactionsAfterTest[0].Portfolio_CurrencyId__c, 
-                  'Id not found. Expected: ' + testPortfolioCurrencies[0].Id + ', but got: ' + transactionsAfterTest[0].Portfolio_CurrencyId__c);
-        Assert.areEqual(testType, transactionsAfterTest[0].Type_Transaction__c, 'Type transaction is not the same');
-        Assert.areEqual(testQuantityTransaction, transactionsAfterTest[0].Quantity__c, 'Quantity transaction is not the same');
+        Assert.areEqual(1, transactionsAfterTest.size(), 'Transaction size should be 1');
+        for( Transaction__c txn : transactionsAfterTest) {
+            Assert.isNotNull(txn.Id, 'Transaction Id should not be null');
+                
+            Assert.areEqual(testPortfolioCurrencies[0].Id, txn.Portfolio_CurrencyId__c, 
+                            'Expected Portfolio Currency Id: ' + testPortfolioCurrencies[0].Id + 
+                            ', but found: ' + txn.Portfolio_CurrencyId__c + 
+                            '. Ensure that the Portfolio Currency record is correctly linked to the transaction.');
+
+            Assert.areEqual(transactionDataMap.get('typeTransaction'), txn.Type_Transaction__c, 'Type transaction is not the same');
+            Decimal expectedQuantity =  Decimal.valueOf((String)transactionDataMap.get('quantityTransaction'));
+            Assert.areEqual(expectedQuantity, txn.Quantity__c, 'Quantity transaction is not the same'); 
+            Decimal expectedAmount = Decimal.valueOf((String)transactionDataMap.get('amountTransaction'));
+            Assert.areEqual(expectedAmount, txn.Amount__c, 'Quantity transaction is not the same'); 
+
+        }
+
     }   
 }
