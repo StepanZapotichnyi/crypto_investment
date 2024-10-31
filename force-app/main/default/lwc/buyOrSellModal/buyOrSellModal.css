@@ -1,32 +1,30 @@
+:host {
+    --primary-color: #333;
+    --font-size-base: 1rem; 
+}
+
 .container_custom_modal {
     transform: translate(-50%, 0%);
     position: relative;
     left: 50%;
-    font-size: 16px;
-    margin: 25px;
-    width: 400px;
-    height: 400px;
-  
+    font-size: var(--font-size-base);
+    margin: 1.5625rem; 
+    width: 25rem; 
+    height: 25rem; 
 }
 
-.custom_body_modal{
-    padding: 0 16px 16px 16px;
+.custom_body_modal {
+    padding: 0 1rem 1rem 1rem; 
 }
 
-.custom-paragraph {
-    margin-bottom: 8px;
-    font-size: 16px;
+.custom-paragraph, .custom-span {
+    margin-bottom: 0.5rem; 
+    font-size: var(--font-size-base);
     font-weight: bold;
-    color: #333; 
-}
-.custom-span {
-  margin-bottom: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333; 
+    color: var(--primary-color);
 }
 
 .custom_footer_modal {
-    padding-bottom: 10px;
-    transform: translate(75%, 0)
+    padding-bottom: 0.625rem; 
+    transform: translate(75%, 0);
 }

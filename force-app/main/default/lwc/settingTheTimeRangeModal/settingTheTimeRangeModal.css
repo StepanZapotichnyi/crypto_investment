@@ -2,14 +2,14 @@
     transform: translate(-50%, 0%);
     position: relative;
     left: 50%;
-    font-size: 16px;
+    font-size: 1rem;
     margin: 25px;
-    width: 500px;
-    height: 400px;
+    width: 31.25rem;
+    height: 25rem;
   }
   
   .custom_body_modal{
-      padding: 0 16px 16px 16px;
+      padding: 0 1rem 1rem 1rem;
       display: flex;
   }
   
@@ -22,10 +22,10 @@
     background-color: #000; 
     color: #fff; 
     border: none; 
-    border-radius: 5px; 
-    padding: 10px 20px; 
+    border-radius: 0.3125rem; 
+    padding: 0.625rem 1.25rem;  
     cursor: pointer; 
-    width: 400px;
+    width: 25rem;
     transition: background-color 0.3s; 
   }
   .custom-button:hover{

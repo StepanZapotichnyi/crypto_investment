@@ -3,10 +3,10 @@
     color: #fff; 
     fill: white;
     border: none; 
-    border-radius: 5px; 
+    border-radius: 0.3125rem; 
     cursor: pointer; 
     transition: background-color 0.3s; 
-    height: 39px;
+    height: 2.4375rem;
 }
 
 .custom-button:hover{
