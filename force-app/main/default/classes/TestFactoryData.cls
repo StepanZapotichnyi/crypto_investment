@@ -53,21 +53,43 @@ public with sharing class TestFactoryData {
         return testTransactions;
     }
 
-    public static String getMockString() {
+
+    
+    public static String createCryptoDataMockString() {
+        
+        List<String> testCryptoSymbols = getTestStringCryptoSymbols();
         String testMockData = '{';  
-        for (Integer i = 0; i < 1500; i++) {
-            String testSymbol = 'TEST' + i;
-            String testPrice = String.valueOf(i); 
         
-            testMockData += '"' + testSymbol + '": {"USD": ' + testPrice + '}';
+        Integer i = 0;
+
+        for (String symbol : testCryptoSymbols) {
+            String price = String.valueOf(i);  
         
-            if (i < 1499) {
+            testMockData += '"' + symbol + '": {"USD": ' + price + '}';
+        
+            if (i < testCryptoSymbols.size() - 1) {
                 testMockData += ',';
             }
+            i++;
         }
+    
         testMockData += '}'; 
         System.debug(testMockData);
 
         return testMockData;
+
     }
+
+
+    public static List<String> getTestStringCryptoSymbols(){
+        List<String> cryptoSymbolsToIsRunnigTest = new List<String>(); 
+        for(Integer i = 0; i < 1500; i++){
+            String symbol = 'TEST'+ i;
+            cryptoSymbolsToIsRunnigTest .add(symbol);
+        }
+        return cryptoSymbolsToIsRunnigTest;
+    }
+
+    
+    
 }
