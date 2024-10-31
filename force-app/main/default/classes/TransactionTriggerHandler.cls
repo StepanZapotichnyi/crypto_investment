@@ -87,53 +87,28 @@
 
     public static void updatePortfolioCurrencySummaries(List<Portfolio_Currency__c> portfolioCurrencyList, Map <Id, Map<String, Decimal>> totalCalculate){
         
-        List<PortfolioCurrencySummary__c> portfolioCurrencySummaryListToUpdate = new List<PortfolioCurrencySummary__c>();
+        List<PortfolioCurrencySummary__c> portfolioCurrencySummaries = new List<PortfolioCurrencySummary__c>();
     
         for(Portfolio_Currency__c portfolioCurrency : portfolioCurrencyList) {
-            for(PortfolioCurrencySummary__c currencySummary : portfolioCurrency.PortfolioCurrencySummaries__r) {
-                currencySummary.Total_Cost__c = currencySummary.Total_Cost__c + totalCalculate.get(currencySummary.Portfolio_CurrencyId__c).get('totalCost');
-                currencySummary.Total_Profit__c = currencySummary.Total_Profit__c + totalCalculate.get(currencySummary.Portfolio_CurrencyId__c).get('totalProfit');
+            portfolioCurrencySummaries.add(portfolioCurrency.PortfolioCurrencySummaries__r);
+        }
+        
+        List<PortfolioCurrencySummary__c> portfolioCurrencySummaryListToUpdate = new List<PortfolioCurrencySummary__c>();
 
+        for(PortfolioCurrencySummary__c currencySummary : portfolioCurrencySummaries) {
+            if(totalCalculate.containsKey(currencySummary.Portfolio_CurrencyId__c)) {
+                currencySummary.Total_Cost__c = currencySummary.Total_Cost__c + totalCalculate.get(currencySummary.Portfolio_CurrencyId__c).get('TotalCost');
+                currencySummary.Total_Profit__c = currencySummary.Total_Profit__c + totalCalculate.get(currencySummary.Portfolio_CurrencyId__c).get('TotalProfit');
                 portfolioCurrencySummaryListToUpdate.add(currencySummary);
             }
-        }
-        if(!portfolioCurrencySummaryListToUpdate.isEmpty()){
 
+        }
+
+        if(!portfolioCurrencySummaryListToUpdate.isEmpty()) {
             update portfolioCurrencySummaryListToUpdate;
         }
 
     }
 
-   
-
  }
 
-
-
-    // }
-
-    // public static void updateTotalProfit(Decimal spend){
-        
-    // }
-    
-    //   totalCalculate = isValidTottalQuantity(totalCalculate);
-    // public static Map <Id, Map<String, Decimal>> isValidTottalQuantity(Map <Id, Map<String, Decimal>> totalCalculate ){
-
-    //     for (Id portfolioCurrencyId : totalCalculate.keySet()) {
-
-    //         Map<String, Decimal> calculations = totalCalculate.get(portfolioCurrencyId);
-    //         Decimal totalCost = 0; 
-    //         Decimal totalQuantity = 0;
-    //         System.debug('totalQuantity');
-    //         System.debug(calculations.get('totalCost') <= 0 && calculations.get('totalQuantity') <= 0 );
-
-    //         if (calculations.get('totalCost') < 0 && calculations.get('totalQuantity') <= 0) {
-    //             System.debug('ss' + calculations);
-    //             calculations.put('totalCost', totalCost);
-    //             calculations.put('totalQuantity', calculations.get('totalQuantity'));
-    //         }
-    //         totalCalculate.put(portfolioCurrencyId, calculations);
-    //     }   
-
-    //     return totalCalculate;
-    // }
