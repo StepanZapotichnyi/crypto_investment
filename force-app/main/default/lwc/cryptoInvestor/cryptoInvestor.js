@@ -344,20 +344,21 @@ export default class CryptoInvestor extends LightningElement {
             description: 'Enter transaction details',
         });
          
-        if(resultTransactionModal){
+        if(!resultTransactionModal){
+            this.showToast('Info','Incorrectly entered parameters','info');
+            return;
+        }
+
             let transactionData = {
                 portfolioId:  this.selectedPortfolio.Id,
                 typeTransaction: 'Buy',
                 quantityTransaction: resultTransactionModal.quantityTransaction.toString(),
                 amountTransaction: resultTransactionModal.amountTransaction.toString(),
                 symbol: resultTransactionModal.symbolTransaction    
-             };
-
-            await this.handleTransactionCreation(transactionData);
+        };
            
-        }else{
-            this.showToast('Info','Incorrectly entered parameters','info');
-        }
+        await this.handleTransactionCreation(transactionData);
+         
 
     }
 
