@@ -35,7 +35,7 @@ export default class BuyOrSellModal extends LightningModal {
             return;
         }
 
-        if (this.transaction.type === 'Sell' && !this.validateSellTransaction(this.quantityTransaction)) {
+        if (this.transaction.type === 'Sell' && this.validateSellTransaction(this.quantityTransaction)) {
             this.showToast('Error', 'Not enough tokens', 'error');
             return;
         }
@@ -53,10 +53,7 @@ export default class BuyOrSellModal extends LightningModal {
     }
 
     validateSellTransaction(quantityTransaction){
-        if(this.transaction.holdings < quantityTransaction ){
-            return false;
-        }
-        return true;
+        return (this.transaction.holdings < quantityTransaction);
     }
 
     showToast(title, message, variant) {
