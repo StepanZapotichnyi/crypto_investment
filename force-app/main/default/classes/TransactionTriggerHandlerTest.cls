@@ -1,5 +1,5 @@
 @IsTest
-public with sharing class TransactionTriggerHandlerTest {
+private with sharing class TransactionTriggerHandlerTest {
     @IsTest
     static void testHandleUpdatePortfolioCurrency() {
   
@@ -12,13 +12,16 @@ public with sharing class TransactionTriggerHandlerTest {
 
         List<Transaction__c> testTransactions = TestFactoryData.createTransactions(testDataTransaction);
 
-         
         List<Portfolio_Currency__c> portfolioCurrenciesAfterUpdate = [
             SELECT
                 Id, Name, PortfolioId__c, Symbol__c, Total_Quantity__c,
                 (SELECT Id, Total_Profit__c, Total_Cost__c, Portfolio_CurrencyId__c FROM PortfolioCurrencySummaries__r)
             FROM Portfolio_Currency__c
         ];
+
+        Assert.areEqual((testTransactions.size() - portfolioCurrenciesAfterUpdate.size()),
+                         portfolioCurrenciesAfterUpdate.size(),
+                          'Expected the difference between testTransactions and portfolioCurrenciesAfterUpdate sizes to equal the size of portfolioCurrenciesAfterUpdate');
 
         for(Portfolio_Currency__c portfolioCurrency : portfolioCurrenciesAfterUpdate) {
 
