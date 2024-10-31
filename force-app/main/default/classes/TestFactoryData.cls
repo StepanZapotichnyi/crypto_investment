@@ -28,23 +28,23 @@ public with sharing class TestFactoryData {
         return testPortfolioCurrencies;
     }
 
-    public static List<Transaction__c> createTransactions(Map<String, Decimal> testDataTransaction) {
+    public static List<Transaction__c> createTransactions(Map<String, Decimal> testTransactionData) {
 
         List<Transaction__c> testTransactions = new List<Transaction__c>();
         List<Portfolio_Currency__c> testPortfolioCurrencies = createPortfoliosWithPortfolioCurrencies(10);
 
         for( Portfolio_Currency__c  portfolioCurrency :  testPortfolioCurrencies ){
             Transaction__c buyTransaction = new Transaction__c();
-            buyTransaction.Type_Transaction__c = 'Buy';
-            buyTransaction.Amount__c = testDataTransaction.get('testAmountBuy');
-            buyTransaction.Quantity__c = testDataTransaction.get('testQuantityBuy');
+            buyTransaction.Type_Transaction__c = TypeTransaction.BUY;
+            buyTransaction.Amount__c = testTransactionData.get('testAmountBuy');
+            buyTransaction.Quantity__c = testTransactionData.get('testQuantityBuy');
             buyTransaction.Portfolio_CurrencyId__c = portfolioCurrency.Id;
             testTransactions.add(buyTransaction);
 
             Transaction__c sellTransaction = new Transaction__c();
-            sellTransaction.Type_Transaction__c = 'Sell';
-            sellTransaction.Amount__c = testDataTransaction.get('testAmountSell');
-            sellTransaction.Quantity__c = testDataTransaction.get('testQuantitySell');
+            sellTransaction.Type_Transaction__c = TypeTransaction.SELL;
+            sellTransaction.Amount__c = testTransactionData.get('testAmountSell');
+            sellTransaction.Quantity__c = testTransactionData.get('testQuantitySell');
             sellTransaction.Portfolio_CurrencyId__c = portfolioCurrency.Id;
             testTransactions.add(sellTransaction);
         }
