@@ -448,7 +448,6 @@ export default class CryptoInvestor extends LightningElement {
      async openTransactionModal(transaction) {
         const newTransaction = await BuyOrSellModal.open({transaction: transaction})
         if(newTransaction) {
-            console.log(newTransaction.data);
             this.handleTransactionCreation(newTransaction.data);
         }
     }
