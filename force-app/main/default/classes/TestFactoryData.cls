@@ -23,7 +23,7 @@ public with sharing class TestFactoryData {
             }
 
         }
-
+        
         insert testPortfolioCurrencies;
         return testPortfolioCurrencies;
     }
@@ -58,15 +58,15 @@ public with sharing class TestFactoryData {
     public static String createCryptoDataMockString() {
         
         List<String> testCryptoSymbols = getTestStringCryptoSymbols();
-        String testMockData = '{';  
+        String testMockData = '{';
         
         Integer i = 0;
 
         for (String symbol : testCryptoSymbols) {
             String price = String.valueOf(i);  
-        
+    
             testMockData += '"' + symbol + '": {"USD": ' + price + '}';
-        
+            
             if (i < testCryptoSymbols.size() - 1) {
                 testMockData += ',';
             }
@@ -75,7 +75,7 @@ public with sharing class TestFactoryData {
     
         testMockData += '}'; 
         System.debug(testMockData);
-
+    
         return testMockData;
 
     }

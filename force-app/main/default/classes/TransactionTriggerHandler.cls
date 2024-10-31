@@ -1,4 +1,4 @@
- public with sharing class TransactionTriggerHandler {
+public with sharing class TransactionTriggerHandler {
 
     public static void handleUpdatePortfolioCurrency(List<Transaction__c> tranascations) {
 
@@ -7,16 +7,15 @@
             if (txn.Portfolio_CurrencyId__c == null) {
                 continue;
             }
-               
-                if (!portfolioCurrencyIdsToTransactions.containsKey(txn.Portfolio_CurrencyId__c)) {
-                    portfolioCurrencyIdsToTransactions.put(txn.Portfolio_CurrencyId__c, new List<Transaction__c>());
-                }
-
-                portfolioCurrencyIdsToTransactions.get(txn.Portfolio_CurrencyId__c).add(txn);
+            
+            if (!portfolioCurrencyIdsToTransactions.containsKey(txn.Portfolio_CurrencyId__c)) {
+                portfolioCurrencyIdsToTransactions.put(txn.Portfolio_CurrencyId__c, new List<Transaction__c>());
             }
+            
+            portfolioCurrencyIdsToTransactions.get(txn.Portfolio_CurrencyId__c).add(txn);
+        }
         updatePortfolioCurrency(portfolioCurrencyIdsToTransactions);
     }
-
 
     public static void updatePortfolioCurrency(Map<Id, List<Transaction__c>> portfolioCurrencyIdsToTransactions) {
         
@@ -30,7 +29,7 @@
         ];
 
         Map <Id, Map<String, Decimal>> totalCalculate  = calculatePortfolioCurrencyTotals(portfolioCurrencyIdsToTransactions, portfolioCurrencyList);
-            
+        
         for (Portfolio_Currency__c portfolioCurrency : portfolioCurrencyList) {
             if (totalCalculate.containsKey(portfolioCurrency.Id)) {
                 Map<String, Decimal> calculations = totalCalculate.get(portfolioCurrency.Id);
@@ -46,7 +45,7 @@
     }   
 
     public static Map<Id, Map<String, Decimal>> calculatePortfolioCurrencyTotals(Map<Id, List<Transaction__c>> portfolioCurrencyIdsToTransactions, List<Portfolio_Currency__c> portfolioCurrencyList) {
-        
+    
         Map<Id, Portfolio_Currency__c> portfolioCurrencyMap = new Map<Id, Portfolio_Currency__c>(portfolioCurrencyList);
         Map<Id, Map<String, Decimal>> totalCalculate = new Map<Id, Map<String, Decimal>>();
         List<Transaction__c> transactions = new List<Transaction__c>();
@@ -64,13 +63,13 @@
             });
             
         }
-            
+
         for (Transaction__c txn : transactions) {
 
             Id portfolioCurrencyId = txn.Portfolio_CurrencyId__c;
-                Decimal quantity = txn.Quantity__c ?? 0;
-                Decimal amount = txn.Amount__c ?? 0;
-                
+            Decimal quantity = txn.Quantity__c ?? 0;
+            Decimal amount = txn.Amount__c ?? 0;
+
             Map<String, Decimal> totals = totalCalculate.get(portfolioCurrencyId);
 
             if (txn.Type_Transaction__c == TypeTransaction.BUY) {
@@ -79,8 +78,10 @@
             } else if (txn.Type_Transaction__c == TypeTransaction.SELL) {
                 totals.put('TotalQuantity', totals.get('TotalQuantity') - quantity);
                 totals.put('TotalProfit', totals.get('TotalProfit') + amount);
+            }
         }
-        
+
+
         return totalCalculate;
     }
     
@@ -88,7 +89,7 @@
     public static void updatePortfolioCurrencySummaries(List<Portfolio_Currency__c> portfolioCurrencyList, Map <Id, Map<String, Decimal>> totalCalculate){
         
         List<PortfolioCurrencySummary__c> portfolioCurrencySummaries = new List<PortfolioCurrencySummary__c>();
-    
+        
         for(Portfolio_Currency__c portfolioCurrency : portfolioCurrencyList) {
             portfolioCurrencySummaries.add(portfolioCurrency.PortfolioCurrencySummaries__r);
         }
