@@ -1,5 +1,5 @@
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import verifyTokenSymbol from '@salesforce/apex/UtilityToPortfolio.verifyTokenSymbol';
+import verifyTokenSymbol from '@salesforce/apex/PortfolioUtility.verifyTokenSymbol';
 import  LightningModal  from 'lightning/modal';
 
 
@@ -23,37 +23,44 @@ export default class CreateTransactionModal extends LightningModal {
     
     handleAddTransaction() {
         
-        if(!this.symbolTransaction) {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error',
-                    message: 'Field Name should not be empty',
-                    variant: 'error'
-                })
-            );
-            
-        }else {
-            verifyTokenSymbol({ symbol: this.symbolTransaction.toUpperCase() })
+        if (this.validateFields()) {
+            return; 
+        }
+    
+        verifyTokenSymbol({ symbol: this.symbolTransaction.toUpperCase() })
             .then(response => {
-                this.close({
-                    symbolTransaction: response,
-                    quantityTransaction: this.quantityTransaction,
-                    amountTransaction: this.amountTransaction
-                });
+                this.handleTransactionSuccess(response);
             })
             .catch(error => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error',
-                        message: error.body.message,
-                        variant: 'error'
-                    })
-                );
-            });
-            
-        }  
-        
-        
+                this.showToast('Error',error.body.message,'error');
+            });    
+    }
+
+    validateFields() {
+        return !this.symbolTransaction 
+        ? (this.showToast('Error', 'Symbol field should not be empty', 'error'), true)
+        : !this.quantityTransaction 
+        ? (this.showToast('Error', 'Quantity field should not be empty', 'error'), true)
+        : !this.amountTransaction 
+        ? (this.showToast('Error', 'Amount field should not be empty', 'error'), true)
+        : false;
+    }
+
+    handleTransactionSuccess(response) {
+        this.close({
+            symbolTransaction: response,
+            quantityTransaction: this.quantityTransaction,
+            amountTransaction: this.amountTransaction
+        }); 
+    }
+
+    showToast(title, message, variant) {
+        const evt = new ShowToastEvent({
+            title: title,
+            message: message,
+            variant: variant
+        });
+        this.dispatchEvent(evt);
     }
 
 }
