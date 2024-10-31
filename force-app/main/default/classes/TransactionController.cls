@@ -6,8 +6,12 @@ public with sharing class TransactionController {
 
         Transaction__c newTransaction = new Transaction__c();
         newTransaction.Type_Transaction__c = (String) transactionData.get('typeTransaction');
-        newTransaction.Amount__c =  Decimal.valueOf((String) transactionData.get('amountTransaction'));
-        newTransaction.Quantity__c = (Decimal) transactionData.get('quantityTransaction');
+        
+        newTransaction.Amount__c = transactionData.get('amountTransaction') != null 
+                                    ? Decimal.valueOf((String) transactionData.get('amountTransaction')): 0;
+        newTransaction.Quantity__c = transactionData.get('quantityTransaction') != null 
+                                    ? Decimal.valueOf((String) transactionData.get('quantityTransaction')): 0;
+
         newTransaction.Portfolio_CurrencyId__c = isValidPortfolioCurrencyId(transactionData);
 
         insert newTransaction;
@@ -22,6 +26,16 @@ public with sharing class TransactionController {
         }
         
         return portfolioCurrencyId;
-    } 
+    }
+    
+    @AuraEnabled
+    public static List<Transaction__c> getAllTransaction() {
+
+        return [
+            SELECT
+                 Id, Name, Amount__c, Quantity__c,Portfolio_CurrencyId__c, Type_Transaction__c, Price_Per_Coin__c, CreatedDate, Symbol__c
+            FROM 
+                Transaction__c];
+    }
 
 }
