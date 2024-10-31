@@ -4,7 +4,9 @@
 
         Map<Id, List<Transaction__c>> portfolioCurrencyIdsToTransactions = new Map<Id, List<Transaction__c>>();
         for (Transaction__c txn : tranascations) {
-            if (txn.Portfolio_CurrencyId__c != null) {
+            if (txn.Portfolio_CurrencyId__c == null) {
+                continue;
+            }
                
                 if (!portfolioCurrencyIdsToTransactions.containsKey(txn.Portfolio_CurrencyId__c)) {
                     portfolioCurrencyIdsToTransactions.put(txn.Portfolio_CurrencyId__c, new List<Transaction__c>());
@@ -12,7 +14,6 @@
 
                 portfolioCurrencyIdsToTransactions.get(txn.Portfolio_CurrencyId__c).add(txn);
             }
-        }
         updatePortfolioCurrency(portfolioCurrencyIdsToTransactions);
     }
 
