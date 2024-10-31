@@ -1,5 +1,5 @@
 @IsTest
-public  class PortfolioCurrencyTriggerHandlerTest {
+private  class PortfolioCurrencyTriggerHandlerTest {
     @IsTest
     static void testHandleUpdatePortfolioCurrency() {
         
@@ -53,7 +53,7 @@ public  class PortfolioCurrencyTriggerHandlerTest {
 
             for (PortfolioCurrencySummary__c currencySummary : portfolioCurrency.PortfolioCurrencySummaries__r) {
                 Assert.areEqual(portfolioCurrency.Id, currencySummary.Portfolio_CurrencyId__c, 
-                  'Id not found. Expected: ' + portfolioCurrency.Id + ', but got: ' + currencySummary.Portfolio_CurrencyId__c);
+                  'PortfolioCurrencyId not found for PortfolioCurrencySummary. Expected: ' + portfolioCurrency.Id + ', but got: ' + currencySummary.Portfolio_CurrencyId__c);
                 
             }
 
