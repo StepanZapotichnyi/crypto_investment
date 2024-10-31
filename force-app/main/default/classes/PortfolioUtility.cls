@@ -1,31 +1,24 @@
-public with sharing class UtilityToPortfolio {
-    public static String CONFIG = 'Config';
+public with sharing class PortfolioUtility {
     public static final String DATA_PATH =  'data/';
     public static final String PRICE = 'pricemulti?';
     public static final Integer  CURRENCY_STRING_MAX_LENGHT = 290;
+    static final Crypto_Endpoind_Data__mdt CRYPTO_ENDPOIND_METADATA = Crypto_Endpoind_Data__mdt.getInstance('Config');
     
-    
-    
-    public static Crypto_Endpoind_Data__mdt getCryptoEndpoindData(String config) {
-        Crypto_Endpoind_Data__mdt result = Crypto_Endpoind_Data__mdt.getInstance(config);
-        return result;
-    }
 
-
-    public static List<String> getCryptoSymbols(){
+    public static List<String> getCryptoSymbols() {
         
         List<Crypto_Endpoind_Data__mdt> cryptoEndpoindData = [SELECT Crypto_Currency_Symbols__c FROM Crypto_Endpoind_Data__mdt];
         List<String> cryptoSymbols = new List<String>(); 
 
-        for(Crypto_Endpoind_Data__mdt mdt :cryptoEndpoindData){
-            cryptoSymbols = Test.isRunningTest() ? 'BTC,TON,W,XRP'.split(',')  : mdt.Crypto_Currency_Symbols__c.replace(' ', '').split(',');
+        for(Crypto_Endpoind_Data__mdt mdt :cryptoEndpoindData) {
+            cryptoSymbols = Test.isRunningTest() ? TestFactoryData.getTestStringCryptoSymbols()  : mdt?.Crypto_Currency_Symbols__c.replace(' ', '').split(',');
         }
 
         return cryptoSymbols;
     }
 
 
-    public static List<String> getContainerCryptoSymbols(){
+    public static List<String> getContainerCryptoSymbols() {
 
         List<String> cryptoSymbols = getCryptoSymbols(); 
 
@@ -35,16 +28,14 @@ public with sharing class UtilityToPortfolio {
         for (String symbol : cryptoSymbols) {
             if (currencySymbolsContainer.length() > CURRENCY_STRING_MAX_LENGHT) {
                 currencySymbolsContainer = currencySymbolsContainer.removeEnd(',');
-                System.debug('body' + currencySymbolsContainer);
                 finalSymbols.add(currencySymbolsContainer);
                 currencySymbolsContainer = '';
             }
             currencySymbolsContainer += symbol + ',';
         }
 
-        if(String.isNotBlank(currencySymbolsContainer)){
+        if(String.isNotBlank(currencySymbolsContainer)) {
             currencySymbolsContainer = currencySymbolsContainer.removeEnd(',');
-            System.debug('body' + currencySymbolsContainer);
             finalSymbols.add(currencySymbolsContainer);
         }
 
@@ -53,13 +44,11 @@ public with sharing class UtilityToPortfolio {
 
      public static String getCryptoEndpoint(String cryptoSymbols) {
 
-        Crypto_Endpoind_Data__mdt result = getCryptoEndpoindData(CONFIG);
-       
-        String conversionCurrencyPath = '&tsyms=' + result.Conversion_Currency_Symbol__c;
+        String conversionCurrencyPath = '&tsyms=' + CRYPTO_ENDPOIND_METADATA.Conversion_Currency_Symbol__c;
         String cryptoSymbolsPath =  'fsyms=' + cryptoSymbols;  
         
-        String endpointUrlToCrypto = result.EndpointUrlForCrypto__c + DATA_PATH + PRICE+ cryptoSymbolsPath + conversionCurrencyPath;
-        System.debug( endpointUrlToCrypto);
+        String endpointUrlToCrypto = CRYPTO_ENDPOIND_METADATA.EndpointUrlForCrypto__c + DATA_PATH + PRICE+ cryptoSymbolsPath + conversionCurrencyPath;
+        
         return endpointUrlToCrypto;
     }
 
@@ -70,18 +59,17 @@ public with sharing class UtilityToPortfolio {
 
         for (String token : cryptoSymbols) {
             if (token.equalsIgnoreCase(symbol)) {
-                System.debug('ceck'+token);
                 return token;
             }
         }
         
-        String errorMessage = 'The symbol ' + symbol + ' is not present in the list of crypto currency symbols' +
-                          '\n' + 'Please add the symbol to the crypto currency list';
-        throw new UtilityToPortfolioException(errorMessage);
+        String errorMessage = 'The symbol ' + symbol + ' is not present in the list of crypto currency symbols.' +
+                          '\n' + 'Please add the symbol to the crypto currency list.';
+        throw new PortfolioUtilityException(errorMessage);
 
     }
 
-    public class UtilityToPortfolioException extends Exception {
+    public class PortfolioUtilityException extends Exception {
             
     }
 }
