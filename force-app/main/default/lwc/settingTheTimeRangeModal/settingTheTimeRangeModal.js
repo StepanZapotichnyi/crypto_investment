@@ -51,7 +51,7 @@ export default class SettingTheTimeRangeModal extends LightningModal {
         }
     }
 
-    isNotEmpty(starting, ending) {  
+    isNotEmpty(starting, ending) {
         this.dateStarting = starting || this.today;
         this.dateEnding = ending || this.lastThirtyDays;
     }

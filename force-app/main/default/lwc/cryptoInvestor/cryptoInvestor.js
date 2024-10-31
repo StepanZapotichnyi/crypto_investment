@@ -552,6 +552,7 @@ export default class CryptoInvestor extends LightningElement {
         
         this.startDate = new Date(); 
         this.endDate = new Date(this.startDate);
+        console.log(this.startDate.getDate());
         this.endDate.setDate(this.startDate.getDate() - amountOfDays);
     }
 
