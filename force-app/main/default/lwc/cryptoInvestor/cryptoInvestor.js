@@ -2,7 +2,6 @@ import { LightningElement, track } from 'lwc';
 import { ShowToastEvent} from 'lightning/platformShowToastEvent';
 import getInvestmentDetails from '@salesforce/apex/CryptoInvestorController.getInvestmentDetails';
 import getDataTableDetails from '@salesforce/apex/CryptoInvestorController.getDataTableDetails';
-// import getDateTimeNow from '@salesforce/apex/CryptoInvestorController.getDateTimeNow';
 import CreatePortfolioModal from 'c/createPortfolioModal';
 import createPortfolio from '@salesforce/apex/PortfolioController.createPortfolio';
 import deletePortfolio from '@salesforce/apex/PortfolioController.deletePortfolio';
@@ -10,7 +9,6 @@ import createTransaction from '@salesforce/apex/TransactionController.createTran
 import CreateTransactionModal from 'c/createTransactionModal';
 import BuyOrSellModal  from 'c/buyOrSellModal';
 import SettingTheTimeRangeModal  from 'c/settingTheTimeRangeModal';
-import StartDate from '@salesforce/schema/Contract.StartDate';
 
 
 const ACTIONS = [
@@ -138,10 +136,20 @@ export default class CryptoInvestor extends LightningElement {
     updateUI() {
         if(this.portfolios.length > 0){
             this.selectedPortfolio = this.portfolios[0];
-            this.handleSelectPortfolio({currentTarget: {dataset: {id: this.selectedPortfolio.Id}}});
+            this.selectPortfolioById(this.selectedPortfolio.Id);
         }
         this.toggleButtonNewPortfolio();
         this.toggleDataTable();
+    }
+
+
+    selectPortfolioById(portfolioId) {
+        if (!portfolioId){
+            return;
+        }
+        this.selectedPortfolio = this.portfolios.find(portfolio => portfolio.Id === portfolioId);
+        this.updatePortfolioHighlight(portfolioId);
+        this.loadPortfolioDetails(portfolioId);
     }
 
     toggleButtonNewPortfolio(){
@@ -165,6 +173,10 @@ export default class CryptoInvestor extends LightningElement {
         }
     }
 
+    handleSelectPortfolio(event) {
+        const portfolioId = event.currentTarget.dataset.id;
+        this.selectPortfolioById(portfolioId); 
+    }
 
     async handleCreatePortfolio() {
         const result = await CreatePortfolioModal.open({
@@ -185,27 +197,15 @@ export default class CryptoInvestor extends LightningElement {
             .finally(() =>{
                 this.toggleDataTable();
                 this.selectedPortfolio = this.portfolios[this.portfolios.length - 1];
-                this.handleSelectPortfolio({currentTarget: {dataset: {id: this.selectedPortfolio.Id}}});
+                this.selectPortfolioById(this.selectedPortfolio.Id);
             });
              
     }
 
-    
-    handleSelectPortfolio(event) {
-        const portfolioId = event.currentTarget.dataset.id;
-        this.selectedPortfolio = this.portfolios.find(portfolio => portfolio.Id == portfolioId);
-        console.log(JSON.stringify( this.selectedPortfolio));
-        this.updatePortfolioHighlight(portfolioId);
-        this.loadPortfolioDetails(portfolioId); 
-    }
-
     async loadPortfolioDetails(portfolioId) {
-        console.log(portfolioId);
         await getDataTableDetails({ portfolioId: portfolioId })
             .then(result => {
-
                  this.interimToDataTablePortfolio = this.createdInterimToDataTablePortfolio(result);
- 
                 this.totalRecordCountToPortfolioTab = this.interimToDataTablePortfolio.length;
                 this.numberOfPagesToPortfolioTab = Math.ceil(this.totalRecordCountToPortfolioTab / PAGE_SIZE);
                 this.displayRecordPerPageToPortfolioTab(this.pageNumberToPortfolioTab);
@@ -218,7 +218,6 @@ export default class CryptoInvestor extends LightningElement {
     }
     
     createdInterimToDataTablePortfolio(data) {
-        console.log(JSON.stringify(data))
         return data.map(item => {
             let totalQuantity = parseFloat(item.totalQuantity) || 0; 
             let totalCost = parseFloat(item.totalCost) || 0;  
@@ -226,7 +225,7 @@ export default class CryptoInvestor extends LightningElement {
             return {
                 Id: item.portfolioCurrencyId,
                 name: item.symbol,
-                price: `$${parseFloat(item.price).toFixed(2)}`, 
+                price: `$${parseFloat(item.price).toFixed(5)}`, 
                 holdings: `${totalQuantity}`,
                 spending: `$${totalCost.toFixed(4)}`, 
                 average: `$${average}`, 
