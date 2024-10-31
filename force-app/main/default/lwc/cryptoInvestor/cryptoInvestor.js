@@ -475,13 +475,11 @@ export default class CryptoInvestor extends LightningElement {
 
     toggleToShowEmptyDataMessage() {
         const emptyDataTable = this.template.querySelector('.empty-datatable');
-    
-        if(emptyDataTable){
             if (emptyDataTable) {
                 const hasData = this.transactionsHistoryData && this.transactionsHistoryData.length > 0;
                 emptyDataTable.classList.toggle('slds-hide', hasData);
             }
-        }
+        
     }
 
     displayRecordPerPageToHistoryTab(page) {
