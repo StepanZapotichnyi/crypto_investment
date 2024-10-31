@@ -205,7 +205,7 @@ export default class CryptoInvestor extends LightningElement {
     async loadPortfolioDetails(portfolioId) {
         await getDataTableDetails({ portfolioId: portfolioId })
             .then(result => {
-                 this.interimToDataTablePortfolio = this.createdInterimToDataTablePortfolio(result);
+                this.interimToDataTablePortfolio = this.createdInterimToDataTablePortfolio(result);
                 this.totalRecordCountToPortfolioTab = this.interimToDataTablePortfolio.length;
                 this.numberOfPagesToPortfolioTab = Math.ceil(this.totalRecordCountToPortfolioTab / PAGE_SIZE);
                 this.displayRecordPerPageToPortfolioTab(this.pageNumberToPortfolioTab);
@@ -349,14 +349,14 @@ export default class CryptoInvestor extends LightningElement {
             return;
         }
 
-            let transactionData = {
-                portfolioId:  this.selectedPortfolio.Id,
-                typeTransaction: 'Buy',
-                quantityTransaction: resultTransactionModal.quantityTransaction.toString(),
-                amountTransaction: resultTransactionModal.amountTransaction.toString(),
-                symbol: resultTransactionModal.symbolTransaction    
+        let transactionData = {
+            portfolioId:  this.selectedPortfolio.Id,
+            typeTransaction: 'Buy',
+            quantityTransaction: resultTransactionModal.quantityTransaction.toString(),
+            amountTransaction: resultTransactionModal.amountTransaction.toString(),
+            symbol: resultTransactionModal.symbolTransaction    
         };
-           
+
         await this.handleTransactionCreation(transactionData);
          
 
@@ -474,11 +474,11 @@ export default class CryptoInvestor extends LightningElement {
     }
 
     toggleToShowEmptyDataMessage() {
-        const emptyDataTable = this.template.querySelector('.empty-datatable');
-            if (emptyDataTable) {
-                const hasData = this.transactionsHistoryData && this.transactionsHistoryData.length > 0;
-                emptyDataTable.classList.toggle('slds-hide', hasData);
-            }
+        const emptyDataTable = this.template.querySelector('.empty-datatable');    
+        if (emptyDataTable) {
+            const hasData = this.transactionsHistoryData && this.transactionsHistoryData.length > 0;
+            emptyDataTable.classList.toggle('slds-hide', hasData);
+        }
         
     }
 
