@@ -19,7 +19,6 @@
 
 
     public static void updatePortfolioCurrency(Map<Id, List<Transaction__c>> portfolioCurrencyIdsToTransactions) {
-        System.debug( 'update'+portfolioCurrencyIdsToTransactions );
         
         List<Portfolio_Currency__c> portfolioCurrencyList = [
              SELECT 
@@ -30,15 +29,12 @@
                 WHERE Id IN :portfolioCurrencyIdsToTransactions.keySet()
         ];
 
-        System.debug( 'update'+ portfolioCurrencyList);
         Map <Id, Map<String, Decimal>> totalCalculate  = calculatePortfolioCurrencyTotals(portfolioCurrencyIdsToTransactions, portfolioCurrencyList);
             
-        for (Portfolio_Currency__c pf : portfolioCurrencyList) {
-            if (totalCalculate.containsKey(pf.Id)) {
-                Map<String, Decimal> calculations = totalCalculate.get(pf.Id);
-
-                pf.Total_Quantity__c = calculations.get('totalQuantity');
-                
+        for (Portfolio_Currency__c portfolioCurrency : portfolioCurrencyList) {
+            if (totalCalculate.containsKey(portfolioCurrency.Id)) {
+                Map<String, Decimal> calculations = totalCalculate.get(portfolioCurrency.Id);
+                portfolioCurrency.Total_Quantity__c = calculations.get('TotalQuantity');
             }
         } 
 
@@ -49,38 +45,40 @@
         
     }   
 
-
     public static Map<Id, Map<String, Decimal>> calculatePortfolioCurrencyTotals(Map<Id, List<Transaction__c>> portfolioCurrencyIdsToTransactions, List<Portfolio_Currency__c> portfolioCurrencyList) {
-    
-        Map<Id, Map<String, Decimal>> totalCalculate = new Map<Id, Map<String, Decimal>>();
         
         Map<Id, Portfolio_Currency__c> portfolioCurrencyMap = new Map<Id, Portfolio_Currency__c>(portfolioCurrencyList);
+        Map<Id, Map<String, Decimal>> totalCalculate = new Map<Id, Map<String, Decimal>>();
+        List<Transaction__c> transactions = new List<Transaction__c>();
         
         for (Id portfolioCurrencyId : portfolioCurrencyIdsToTransactions.keySet()) {
-            Portfolio_Currency__c pf = portfolioCurrencyMap.get(portfolioCurrencyId);
+            Portfolio_Currency__c portfolioCurrency = portfolioCurrencyMap.get(portfolioCurrencyId);
+            Decimal totalQuantity = portfolioCurrency.Total_Quantity__c ?? 0;
+
+            transactions.addAll(portfolioCurrencyIdsToTransactions.get(portfolioCurrencyId));
+
+            totalCalculate.put(portfolioCurrencyId, new Map<String, Decimal>{
+                'TotalProfit' => 0,
+                'TotalCost' => 0,
+                'TotalQuantity' => totalQuantity
+            });
             
-            Decimal totalQuantity = pf.Total_Quantity__c ?? 0;
-            Decimal totalCost = 0;
-            Decimal totalProfit = 0;
+        }
             
-            for (Transaction__c txn : portfolioCurrencyIdsToTransactions.get(portfolioCurrencyId)) {
+        for (Transaction__c txn : transactions) {
+
+            Id portfolioCurrencyId = txn.Portfolio_CurrencyId__c;
                 Decimal quantity = txn.Quantity__c ?? 0;
                 Decimal amount = txn.Amount__c ?? 0;
                 
-                if (txn.Type_Transaction__c == 'Buy') {
-                    totalQuantity += quantity;
-                    totalCost += amount; 
-                } else if (txn.Type_Transaction__c == 'Sell') {
-                    totalQuantity -= quantity;
-                    totalProfit += amount; 
-                }
-            }
-            
-                totalCalculate.put(portfolioCurrencyId, new Map<String, Decimal>{
-                    'totalCost' => totalCost,
-                    'totalQuantity' => totalQuantity,
-                    'totalProfit' => totalProfit
-                });
+            Map<String, Decimal> totals = totalCalculate.get(portfolioCurrencyId);
+
+            if (txn.Type_Transaction__c == TypeTransaction.BUY) {
+                totals.put('TotalQuantity', totals.get('TotalQuantity') + quantity);
+                totals.put('TotalCost', totals.get('TotalCost') + amount);
+            } else if (txn.Type_Transaction__c == TypeTransaction.SELL) {
+                totals.put('TotalQuantity', totals.get('TotalQuantity') - quantity);
+                totals.put('TotalProfit', totals.get('TotalProfit') + amount);
         }
         
         return totalCalculate;
