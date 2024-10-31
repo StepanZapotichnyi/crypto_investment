@@ -324,8 +324,9 @@ export default class CryptoInvestor extends LightningElement {
     }
     
     togglePortfolioSelection(element) {
-        if (!element) return;
-    
+        if (!element) {
+            return;
+        }
         element.classList.toggle('is-selected');
         element.classList.toggle('is-active');
     
